@@ -13,11 +13,11 @@ ROOT_DIR = os.path.dirname(BASE_DIR)
 
 SECRET_BASE_FILE = os.path.join(BASE_DIR, 'secrets.json')
 
-secrets = json.loads(open(SECRET_BASE_FILE).read())
-for key, value in secrets.items():
-    setattr(sys.modules[__name__], key, value)
+#secrets = json.loads(open(SECRET_BASE_FILE).read())
+#for key, value in secrets.items():
+#    setattr(sys.modules[__name__], key, value)
 
-DEBUG = (os.environ.get('DEBUG', 'True') != 'False')
+DEBUG =False
 
 ALLOWED_HOSTS = ['*']
 
@@ -122,26 +122,26 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'elderlystore.wsgi.application'
 
-secret_file = os.path.join(BASE_DIR, 'secrets.json')
+#secret_file = os.path.join(BASE_DIR, 'secrets.json')
 
-with open(secret_file) as f:
-    secrets = json.loads(f.read())
+#with open(secret_file) as f:
+    #secrets = json.loads(f.read())
 
 
 # 환경변수 분리
-# def get_env_variable(var_name):
-#    try:
-#      return os.environ[var_name]
-#    except KeyError:
-#      error_msg = 'Set the {} environment variable'.format(var_name)
-#      raise ImproperlyConfigured(error_msg)
+def get_env_variable(var_name):
+    try:
+      return os.environ[var_name]
+    except KeyError:
+      error_msg = 'Set the {} environment variable'.format(var_name)
+      raise ImproperlyConfigured(error_msg)
 
-def get_env_variable(key):
-   try:
-       return secrets[key]
-   except KeyError:
-       error_msg = f"Set the {key} environment variable"
-       raise ImproperlyConfigured(error_msg)
+#def get_env_variable(key):
+#   try:
+#       return secrets[key]
+#   except KeyError:
+#       error_msg = f"Set the {key} environment variable"
+#       raise ImproperlyConfigured(error_msg)
 
 
 SECRET_KEY = get_env_variable('SECRET_KEY')
@@ -284,11 +284,3 @@ SIMPLE_JWT = {
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-
-AWS_ACCESS_KEY_ID = 'AKIAQOUVREBZDNTGYTUI'
-AWS_SECRET_ACCESS_KEY ='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'
-AWS_STORAGE_BUCKET_NAME= 'hackathon11th'
-AWS_S3_SIGNATURE_VERSION = 's3v4'
-AWS_S3_REGION_NAME = 'ap-northeast-2'
