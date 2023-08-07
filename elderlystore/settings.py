@@ -17,7 +17,7 @@ secrets = json.loads(open(SECRET_BASE_FILE).read())
 for key, value in secrets.items():
     setattr(sys.modules[__name__], key, value)
 
-DEBUG = False
+DEBUG = (os.environ.get('DEBUG', 'True') != 'False')
 
 ALLOWED_HOSTS = ['*']
 
@@ -145,6 +145,8 @@ def get_env_variable(key):
 
 
 SECRET_KEY = get_env_variable('SECRET_KEY')
+
+
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
@@ -282,3 +284,11 @@ SIMPLE_JWT = {
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+
+AWS_ACCESS_KEY_ID = 'AKIAQOUVREBZDNTGYTUI'
+AWS_SECRET_ACCESS_KEY ='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'
+AWS_STORAGE_BUCKET_NAME= 'hackathon11th'
+AWS_S3_SIGNATURE_VERSION = 's3v4'
+AWS_S3_REGION_NAME = 'ap-northeast-2'
